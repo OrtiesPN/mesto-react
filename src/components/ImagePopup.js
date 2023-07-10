@@ -1,5 +1,4 @@
 export default function ImagePopup(props) {
-  console.log(props.card)
     return(
         <div className={`popup image-card-popup ${props.isOpen && "popup_opened"}`}>
           <figure className="popup-card">

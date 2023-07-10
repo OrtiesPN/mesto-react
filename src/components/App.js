@@ -18,10 +18,11 @@ function App() {
     setIsEditProfilePopupOpen(true);
   }
   function handleEditAvatarClick() {
-    setIsAddPlacePopupOpen(true);
+    setIsEditAvatarPopupOpen(true);
   }
   function handleAddPlaceClick() {
-    setIsEditAvatarPopupOpen(true)
+    
+    setIsAddPlacePopupOpen(true);
   }
 
   function handleCardClick(data) {
@@ -35,7 +36,7 @@ function App() {
     setIsEditAvatarPopupOpen(false);
     setWarningPopupOpen(false);
     setImagePopupOpen(false);
-    setSelectedCard(false);
+    setSelectedCard({name: '', link: ''});
   }
 
   return (
