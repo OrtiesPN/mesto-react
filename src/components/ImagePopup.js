@@ -1,7 +1,7 @@
 export default function ImagePopup(props) {
     return(
-        <div className={`popup image-card-popup ${props.isOpen && "popup_opened"}`}>
-          <figure className="popup-card">
+        <div className={`popup image-card-popup ${props.isOpen && "popup_opened"}`} onClick={props.onClose}>
+          <figure className="popup-card" onClick={(evt=> evt.stopPropagation())}>
             <button
               className="button popup__close-btn"
               type="button"
