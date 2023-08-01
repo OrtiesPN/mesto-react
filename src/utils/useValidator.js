@@ -28,18 +28,12 @@ export default function useValidator() {
     setIsFormValid(form.checkValidity());
   }
 
-  function reset(data = {}) {
+  const reset = useCallback((data = {}) => {
     setValues(data);
     setErrors({});
     setIsInputValid({});
     setIsFormValid(false);
-  }
-
-  const setDefaults = useCallback((name, value) => {
-    setValues((oldState) => {
-      return { ...oldState, [name]: value };
-    });
-  }, []);
+  }, [])
 
   return {
     values,
@@ -48,6 +42,5 @@ export default function useValidator() {
     isFormValid,
     handleChange,
     reset,
-    setDefaults,
   };
 }

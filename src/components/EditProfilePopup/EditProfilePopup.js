@@ -1,4 +1,4 @@
-import { useContext, useEffect, useCallback } from "react";
+import { useContext, useEffect } from "react";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import PopupWithForm from "../PopupWithForm";
 import useValidator from "../../utils/useValidator";
@@ -11,18 +11,8 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
     isInputValid,
     isFormValid,
     handleChange,
-    reset,
-    setDefaults,
+    reset
   } = useValidator();
-
-  const resetOnEscape = useCallback(
-    (evt) => {
-      if (evt.key === "Escape") {
-        reset({ user_name: currentUser.name, user_info: currentUser.about });
-      }
-    },
-    [currentUser.name, currentUser.about, reset]
-  );
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -30,28 +20,14 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
       {
         user_name: values.user_name,
         user_info: values.user_info,
-      },
-      reset
-    );
-  }
-
-  function handleClose() {
-    onClose();
-    reset({ user_name: currentUser.name, user_info: currentUser.about });
+      });
   }
 
   useEffect(() => {
-    setDefaults("user_name", currentUser.name);
-    setDefaults("user_info", currentUser.about);
-  }, [currentUser, setDefaults]);
-
-  useEffect(() => {
-    if (isOpen === true) {
-      document.addEventListener("keydown", resetOnEscape);
-    } else {
-      document.removeEventListener("keydown", resetOnEscape);
+    if (isOpen) {
+      reset({ user_name: currentUser.name, user_info: currentUser.about });
     }
-  }, [isOpen, resetOnEscape]);
+  }, [isOpen, reset, currentUser])
 
   return (
     <PopupWithForm
@@ -61,7 +37,7 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
       isOpen={isOpen}
       isValid={isFormValid}
       onSubmit={handleSubmit}
-      onClose={handleClose}
+      onClose={onClose}
     >
       <fieldset className="popup__inputs">
         <label>

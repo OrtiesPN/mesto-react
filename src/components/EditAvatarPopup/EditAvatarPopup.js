@@ -1,25 +1,11 @@
 import PopupWithForm from "../PopupWithForm";
 import useValidator from "../../utils/useValidator";
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
     const link = useRef()
   const { values, errors, isInputValid, isFormValid, handleChange, reset } =
     useValidator();
-
-  function handleClose() {
-    onClose();
-    reset();
-  }
-
-  const resetOnEscape = useCallback(
-    (evt) => {
-      if (evt.key === "Escape") {
-        reset();
-      }
-    },
-    [reset]
-  );
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -27,12 +13,11 @@ export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
   }
 
   useEffect(() => {
-    if (isOpen === true) {
-      document.addEventListener("keydown", resetOnEscape);
-    } else {
-      document.removeEventListener("keydown", resetOnEscape);
+    if (isOpen) {
+      reset();
     }
-  }, [isOpen, resetOnEscape]);
+  }, [isOpen, reset])
+
 
   return (
     <PopupWithForm
@@ -42,7 +27,7 @@ export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
       isOpen={isOpen}
       isValid={isFormValid}
       onSubmit={handleSubmit}
-      onClose={handleClose}
+      onClose={onClose}
     >
       <fieldset className="popup__inputs">
         <label>

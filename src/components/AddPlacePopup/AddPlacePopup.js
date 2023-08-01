@@ -1,39 +1,23 @@
-import { useEffect, useCallback } from "react";
+import { useEffect } from "react";
 import PopupWithForm from "../PopupWithForm";
 import useValidator from "../../utils/useValidator";
 
 export default function AddPlacePopup({isOpen, onClose, onAddPlace}) {
   const { values, errors, isInputValid, isFormValid, handleChange, reset} = useValidator();
 
-  function handleClose() {
-    onClose();
-    reset();
-  }
-
-  const resetOnEscape = useCallback(
-    (evt) => {
-      if (evt.key === "Escape") {
-        reset();
-      }
-    },
-    [reset]
-  );
-
   function handleSubmit(evt) {
     evt.preventDefault();
     onAddPlace({
         card_place: values.card_place,
         card_link: values.card_link,
-      }, reset);
+      });
   }
 
   useEffect(() => {
-    if (isOpen === true) {
-      document.addEventListener("keydown", resetOnEscape);
-    } else {
-      document.removeEventListener("keydown", resetOnEscape);
+    if (isOpen) {
+      reset();
     }
-  }, [isOpen, resetOnEscape]);
+  }, [isOpen, reset])
 
   return(
     <PopupWithForm
@@ -41,7 +25,7 @@ export default function AddPlacePopup({isOpen, onClose, onAddPlace}) {
             title="Новое место"
             titleButton="Создать"
             isOpen={isOpen}
-            onClose={handleClose}
+            onClose={onClose}
             onSubmit={handleSubmit}
             isValid={isFormValid}
           >

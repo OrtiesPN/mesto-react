@@ -62,7 +62,7 @@ function App() {
         })
       );
       closeAllPopups();
-    });
+    }).catch((error) => console.error(`Fail to delete place: ${error}`));;
   }
   // сброс стейтов для попапов и функции их закрытия, сброс слушателя на esc
   const resetAllStates = useCallback(() => {
@@ -90,29 +90,27 @@ function App() {
   }, [resetAllStates, closePopupByEscape]);
 
   // обработчики попапов
-  function handleUpdateUser(data, reset) {
+  function handleUpdateUser(data) {
     api
       .setUserInfo(data)
       .then((res) => {
         setCurrentUser(res);
-        reset();
         closeAllPopups();
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(`Fail to update user info: ${error}`));
   }
 
-  function handleUpdateAvatar(data, reset) {
+  function handleUpdateAvatar(data) {
     api
       .setUserAvatar(data)
       .then((res) => {
         setCurrentUser(res);
-        reset();
         closeAllPopups();
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(`Fail to update avatar: ${error}`));
   }
 
-  function handleAddPlaceSubmit(data, reset) {
+  function handleAddPlaceSubmit(data) {
     api
       .addCard(data)
       .then((res) => {
@@ -124,10 +122,9 @@ function App() {
           likes: res.likes,
         };
         setCards([newCard, ...cards]);
-        reset();
         closeAllPopups();
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(`Fail to add new place: ${error}`));
   }
   // загрузка изначального массива карточек и установка пользователя
   useEffect(() => {
@@ -145,7 +142,7 @@ function App() {
         setCards(cardList);
         setIsLoading(false);
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(`Fail to load initial cards: ${error}`));
   }, []);
 
   return (
